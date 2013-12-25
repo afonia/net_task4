@@ -6,8 +6,8 @@ import java.util.ArrayList;
  */
 public class AvlTree {
 
-    protected AvlNode root; // the root node
-
+    public AvlNode root; // the root node
+    protected int lastInsertedKey = 1;
 /***************************** Core Functions ************************************/
 
     /**
@@ -16,9 +16,15 @@ public class AvlTree {
      * @param k
      *            The key of the new node.
      */
-    public void insert(int k) {
+    public void insert(String ip, Integer k) {
         // create new node
-        AvlNode n = new AvlNode(k);
+        AvlNode n;
+        if(k == null) {
+            n = new AvlNode(lastInsertedKey, ip);
+            lastInsertedKey++;
+        } else {
+            n = new AvlNode(k, ip);
+        }
         // start recursive procedure for inserting the node
         insertAVL(this.root,n);
     }

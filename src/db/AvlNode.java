@@ -7,11 +7,13 @@ public class AvlNode {
     public AvlNode parent;
     public int key;
     public int balance;
+    public String ip;
 
-    public AvlNode(int k) {
+    public AvlNode(int k, String ip) {
         left = right = parent = null;
         balance = 0;
         key = k;
+        this.ip = ip;
     }
     public String toString() {
         return "" + key;
