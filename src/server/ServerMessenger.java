@@ -1,5 +1,7 @@
 package server;
 
+import ip.Network;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,25 +18,24 @@ import java.net.Socket;
  */
 public class ServerMessenger implements Runnable {
     public static int port = 1234;
+    public static String ip;
+
     private ServerSocket serverSocket = null;
     private Socket fromClient = null;
     private BufferedReader in = null;
     private PrintWriter out = null;
-    private boolean exit = false;
+    public boolean exit = false;
+
 
     public ServerMessenger(){
         try {
-            System.out.println("Messenger start init");
             serverSocket = new ServerSocket(port);
-            fromClient = serverSocket.accept();
-            in = new BufferedReader(new InputStreamReader(fromClient.getInputStream()));
-            out = new PrintWriter(fromClient.getOutputStream(),true);
-
-            System.out.println("Messenger inited");
+            //System.out.println("Messenger inited");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public void dispose(){
         try {
@@ -48,11 +49,6 @@ public class ServerMessenger implements Runnable {
     }
 
 
-
-    public void scan(){
-
-    }
-
     public void checkChildrens(){
 
     }
@@ -61,24 +57,56 @@ public class ServerMessenger implements Runnable {
 
     }
 
-    public void scanForAtherServerInSubnet(){
-
-    }
-
     @Override
     public void run() {
-        System.out.println("Messenger Start");
+        try {
+            //System.out.println("Messenger Start");
+            new Thread( new ServerScaner(this)).start();
 
-        while (!exit){
-            try {
-                System.out.println("Messenger work");
-                Thread.sleep(1000);
+            while (!exit){
+                //System.out.println("Messenger wait for messege");
+                fromClient = serverSocket.accept();
+                ip = fromClient.getLocalAddress().getHostAddress();
+                in = new BufferedReader(new InputStreamReader(fromClient.getInputStream()));
+                out = new PrintWriter(fromClient.getOutputStream(),true);
+                String input;
+                String mesege = null;
+                while ((input=in.readLine())!=null){
+                    System.out.println("Mesenger get:" +input);
+                    if(input.equals(ServerScaner.End)) break;
+                    if(mesege==null) mesege = input;
+                    else mesege+=input;
+                    //System.out.println(input);
+                }
 
+                if(mesege.contains(ServerScaner.HiMessege)){
+                    out.println(ServerScaner.HiMessege + ip);
+                    out.println(ServerScaner.End);
+                    System.out.println("Mesenger send:" + ip );
+                }
+                if(mesege.contains(ServerScaner.Messege)){
+                    //System.out.println(mesege);
+                    out.println(ServerScaner.Confirm);
+                    out.println(ServerScaner.End);
+                    System.out.println("Mesenger confirm" );
+                }
+//                //System.out.println("end");
 
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        finally {
+            dispose();
+        }
+    }
 
+    public String[] getSubnetIps(){
+        String pattern = "10.9.88.";
+        String[] ret = new String[255];
+        for(int i = 1; i<256; i++){
+            ret[i-1] = pattern + Integer.toString(i);
+        }
+        return ret;
     }
 }
