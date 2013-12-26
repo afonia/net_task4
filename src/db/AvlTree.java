@@ -113,7 +113,10 @@ public class AvlTree {
         removeAVL(this.root,k);
     }
 
-    public void removeByIp(int k) {
+    public void removeByIp(String ip) {
+
+        Integer k = findKeyByIp(ip);
+
         // First we must find the node, after this we can delete it.
         removeAVL(this.root,k);
     }
