@@ -21,6 +21,6 @@ public class Main {
         avlTree.insert("th5", null);
         avlTree.insert("th6", null);
         avlTree.insert("th7", null);
-        System.out.println(avlTree.root.right.left.ip);
+        System.out.println(avlTree.findKeyByIp("th0"));
     }
 }

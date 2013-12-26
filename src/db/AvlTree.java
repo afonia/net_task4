@@ -113,6 +113,11 @@ public class AvlTree {
         removeAVL(this.root,k);
     }
 
+    public void removeByIp(int k) {
+        // First we must find the node, after this we can delete it.
+        removeAVL(this.root,k);
+    }
+
     /**
      * Finds a node and calls a method to remove the node.
      *
@@ -392,4 +397,75 @@ public class AvlTree {
         io.add(n);
         inorder(n.right, io);
     }
+
+    public boolean isMain(String ip) {
+        if(root.ip == ip) {
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<String> getIpList() {
+        return getIpListRecursion(root);
+    }
+
+    public ArrayList<String> getIpListRecursion(AvlNode cur) {
+        if( cur == null ) {
+            return null;
+        }
+        ArrayList<String> ipList = new ArrayList<String>();
+        ipList.add(cur.ip);
+        boolean outChildLeft = true;
+        boolean outChildRight = true;
+        if(cur.left != null) {
+            ArrayList<String> ipListLeft = getIpListRecursion(cur.left);
+            if(ipListLeft !=null ) {
+                ipList.addAll(ipListLeft);
+            } else {
+                outChildLeft = false;
+            }
+        }
+        if(cur.right != null) {
+            ArrayList<String> ipListRight = getIpListRecursion(cur.right);
+            if(ipListRight !=null ) {
+                ipList.addAll(ipListRight);
+            } else {
+                outChildRight = false;
+            }
+        }
+        if( (!outChildLeft) && (!outChildRight)) {
+            return null;
+        } else {
+            return ipList;
+        }
+    }
+
+    public Integer findKeyByIp(String ip) {
+        return findKeyByIpRecursion(root, ip);
+    }
+
+    public Integer findKeyByIpRecursion(AvlNode cur, String ip) {
+        if( cur == null ) {
+            return null;
+        }
+
+        if(cur.ip == ip) {
+            return cur.key;
+        }
+
+        if(cur.left != null) {
+            Integer keyLeft = findKeyByIpRecursion(cur.left, ip);
+            if(keyLeft !=null ) {
+                return keyLeft;
+            }
+        }
+        if(cur.right != null) {
+            Integer keyRight = findKeyByIpRecursion(cur.right, ip);
+            if(keyRight !=null ) {
+                return keyRight;
+            }
+        }
+        return null;
+    }
+
 }
