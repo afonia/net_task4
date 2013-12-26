@@ -73,21 +73,21 @@ public class ServerMessenger implements Runnable {
                 String mesege = null;
                 while ((input=in.readLine())!=null){
                     System.out.println("Mesenger get:" +input);
-                    if(input.equals(ServerScaner.End)) break;
+                    if(input.equals(Dictionary.End)) break;
                     if(mesege==null) mesege = input;
                     else mesege+=input;
                     //System.out.println(input);
                 }
 
-                if(mesege.contains(ServerScaner.HiMessege)){
-                    out.println(ServerScaner.HiMessege + ip);
-                    out.println(ServerScaner.End);
+                if(mesege.contains(Dictionary.HiMessege)){
+                    out.println(Dictionary.HiMessege + ip);
+                    out.println(Dictionary.End);
                     System.out.println("Mesenger send:" + ip );
                 }
-                if(mesege.contains(ServerScaner.Messege)){
+                if(mesege.contains(Dictionary.Messege)){
                     //System.out.println(mesege);
-                    out.println(ServerScaner.Confirm);
-                    out.println(ServerScaner.End);
+                    out.println(Dictionary.Confirm);
+                    out.println(Dictionary.End);
                     System.out.println("Mesenger confirm" );
                 }
 //                //System.out.println("end");

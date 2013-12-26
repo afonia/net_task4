@@ -10,5 +10,6 @@ package server;
 public class Email {
     public String adress;
     public String messege;
+    public String fromServer;
 
 }

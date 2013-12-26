@@ -18,11 +18,8 @@ public class ServerScaner implements Runnable{
     public String[] serverIPs;
     ServerMessenger parent;
 
-    //dictionary
-    public static String HiMessege = "Hi from:";
-    public static String Messege = "Messege:";
-    public static String Confirm = "I get";
-    public static String End = "#";
+
+
 
     public ServerScaner(ServerMessenger parent){
         this.parent = parent;
@@ -44,16 +41,23 @@ public class ServerScaner implements Runnable{
 
     private void scan(){
         //System.out.println("Start scan");
-        for (String s: serverIPs){
-            String mesege =  scanIp(s);
-            if(mesege!= null){
-                if(mesege.contains(HiMessege)){
-                    //System.out.println(mesege);
-                    SendMessegeToServer(mesege.split(":")[1],"test");
+        while (parent.exit){
+            for (String s: serverIPs){
+                String mesege =  scanIp(s);
+                if(mesege!= null){
+                    if(mesege.contains(Dictionary.HiMessege)){
+                        //System.out.println(mesege);
+    //                    SendMessegeToServer(mesege.split(":")[1],"test");
+                    }
+                    if (mesege.contains(Dictionary.Confirm)){
+                        //System.out.println(mesege);
+                    }
                 }
-                if (mesege.contains(Confirm)){
-                    //System.out.println(mesege);
-                }
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
     }
@@ -68,12 +72,12 @@ public class ServerScaner implements Runnable{
             Socket fromserver = new Socket(InetAddress.getByName(ip),ServerMessenger.port);
             BufferedReader in  = new BufferedReader(new InputStreamReader(fromserver.getInputStream()));
             PrintWriter out = new PrintWriter(fromserver.getOutputStream(),true);
-            out.println(HiMessege + ip);
-            out.println(End);
+            out.println(Dictionary.HiMessege + ip);
+            out.println(Dictionary.End);
             System.out.println("Scan send ip");
             String input;
             while ((input = in.readLine())!=null){
-                if(input.equals(ServerScaner.End)) break;
+                if(input.equals(Dictionary.End)) break;
                 System.out.println("Scan get:" + input);
                 //System.out.println("client:"+input);
                 ret = ret + input;
@@ -101,14 +105,14 @@ public class ServerScaner implements Runnable{
             Socket fromserver = new Socket(InetAddress.getByName(ip),ServerMessenger.port);
             BufferedReader in  = new BufferedReader(new InputStreamReader(fromserver.getInputStream()));
             PrintWriter out = new PrintWriter(fromserver.getOutputStream(),true);
-            out.println(ServerScaner.Messege + Messege);
-            out.println(End);
+            out.println(Dictionary.Messege + Messege);
+            out.println(Dictionary.End);
             System.out.println("Scner send mesege:" + Messege);
             String input;
             while ((input = in.readLine())!=null){
                 //System.out.println(input);
-                if(input.equals(ServerScaner.End)) break;
-                if(input == ServerScaner.Confirm)ret = true;
+                if(input.equals(Dictionary.End)) break;
+                if(input == Dictionary.Confirm)ret = true;
                 System.out.println("Scaner get:"+input);
             }
             fromserver.close();
