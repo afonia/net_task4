@@ -1,5 +1,6 @@
 package mail;
 
+import com.google.gson.annotations.Expose;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
@@ -17,16 +18,20 @@ import javax.mail.internet.*;
  * To change this template use File | Settings | File Templates.
  */
 public class EmailManager {
-    public ArrayList emails = new ArrayList<Email>();
-    public Hashtable<String,Object> mapSend = new Hashtable<String,Object>();
+    @Expose
+    public ArrayList<Email> emails = new ArrayList<Email>();
+    @Expose
+    public Hashtable<String,Integer[]> mapSend = new Hashtable<String,Integer[]>();
+    @Expose
     public int sendEmail = 2;
+    @Expose
     public int sendEmailDelay = 5;
 
-    public boolean sendEmails(String ip) {
-        int[] sendArray =  (int[])mapSend.get(ip);
+    public Integer[] sendEmails(String ip) {
+        Integer[] sendArray =  mapSend.get(ip);
         while( sendArray.length !=0 ) {
             sendEmail(ip);
-            sendArray =  (int[])mapSend.get(ip);
+            sendArray =  mapSend.get(ip);
             try {
                // System.out.println( sendArray.length);
 
@@ -43,12 +48,12 @@ public class EmailManager {
 
             }
         }
-        return true;
+        return mapSend.get(ip);
     }
 
     protected boolean sendEmail(String ip) {
         SendMessage sendMessage = new SendMessage();
-        int[] sendArray =  (int[])mapSend.get(ip);
+        Integer[] sendArray =  mapSend.get(ip);
         //System.out.println(sendArray[2]);
         int sendCounter = 0;
         Email curEmail = null;
@@ -65,7 +70,7 @@ public class EmailManager {
             }
           //  System.out.println(i);
            // System.out.println(sendArray[0]);
-            sendArray =ArrayUtils.removeElement(sendArray, sendArray[i]);
+            sendArray = (Integer[])ArrayUtils.removeElement(sendArray, sendArray[i]);
             mapSend.remove(ip);
             mapSend.put(ip, sendArray);
             //System.out.println(sendArray[0]);
@@ -74,27 +79,27 @@ public class EmailManager {
         return true;
     }
 
-    public void updateMapSendInMain(String ip, int[] array) {
+    public void updateMapSendInMain(String ip, Integer[] array) {
         mapSend.remove(ip);
         mapSend.put(ip, array);
     }
 
     public void createSendListInMain(String[] ips) {
         int count= ips.length;
-        mapSend = new Hashtable<String,Object>();
+        mapSend = new Hashtable<String,Integer[]>();
         int emailCountSize =  emails.size();
         int emailCount =  emailCountSize / count;
         int counter = 0;
         for(String str : ips) {
-            int[] ourArray = null;
+            Integer[] ourArray = null;
             if( (counter == 0) && (emailCountSize%count != 0) ) {
-                ourArray = new int[emailCount+1];
+                ourArray = new Integer[emailCount+1];
                 for(int i =0; i < emailCount;i++) {
                     ourArray[i] =  counter*emailCount + i;
                 }
                 ourArray[emailCount] = emailCountSize-1;
             }  else {
-                ourArray = new int[emailCount];
+                ourArray = new Integer[emailCount];
                 for(int i =0; i < emailCount;i++) {
                     ourArray[i] =  counter*emailCount + i;
                 }

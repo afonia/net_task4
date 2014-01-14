@@ -1,5 +1,7 @@
 package mail;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created with IntelliJ IDEA.
  * User: salerat
@@ -8,12 +10,18 @@ package mail;
  * To change this template use File | Settings | File Templates.
  */
 public class Email {
-    String to;
-    String subject;
-    String messageBody;
-    String host;
-    String user;
-    String password;
+    @Expose
+    public String to;
+    @Expose
+    public String subject;
+    @Expose
+    public String messageBody;
+    @Expose
+    public String host;
+    @Expose
+    public String user;
+    @Expose
+    public String password;
 
     public Email(String to, String subject, String messageBody, String host, String user, String password) {
         this.to = to;

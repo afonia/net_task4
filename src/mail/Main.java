@@ -1,5 +1,9 @@
 package mail;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.apache.commons.lang.ArrayUtils;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -24,10 +28,22 @@ public class Main {
        // emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест8", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
 
         emailManager.createSendListInMain(new String[]{"10.0.0.0" , "10.0.0.1"});
-       // emailManager.mapSend.put("10.0.0.0", new int[]{5, 6 ,7 ,8});
-        emailManager.sendEmails("10.0.0.0");
-        System.out.println("new");
-        emailManager.sendEmails("10.0.0.1");
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String js = gson.toJson(emailManager);
+        //System.out.println(js);
+
+        EmailManager emailManager2 = gson.fromJson(js, EmailManager.class);
+       // ArrayList<Integer> inter = new ArrayList<Integer>();
+       // inter = (ArrayList)emailManager2.mapSend.get("10.0.0.0");
+        //int[] st = new int[inter.size()];
+       // st =  inter.toArray(st);
+       // int[] intArray = ArrayUtils.toPrimitive((ArrayList))
+      //  System.out.println(emailManager2.emails.get(0).getClass());
+       // emailManager2.mapSend.put("10.0.0.0", new int[]{5, 6 ,7 ,8});
+       emailManager2.sendEmails("10.0.0.0");
+        //System.out.println("new");
+      //  emailManager.sendEmails("10.0.0.1");
       //  List<Integer> test0 = Arrays.asList(1, 1);
        // List<Integer> test1 = Arrays.asList(1,1);
      /*   int[] a = {1,2,3};
