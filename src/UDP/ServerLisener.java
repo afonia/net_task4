@@ -1,10 +1,8 @@
 package UDP;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
@@ -41,6 +39,8 @@ public class ServerLisener implements Runnable{
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 System.out.println("server wait");
                 serverSocket.receive(receivePacket);
+                if(receivePacket.getAddress().equals(getInternetAddress())) continue;
+
                 String sentence = new String(receivePacket.getData());
                 InetAddress IPfrom = receivePacket.getAddress();
 
@@ -127,6 +127,31 @@ public class ServerLisener implements Runnable{
         }
         if(messege.contains(Dictionary.Unsopproted)) return null;
         return Dictionary.Unsopproted;
+    }
+
+    public InetAddress getInternetAddress(){
+
+        try {
+            Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
+            for (; n.hasMoreElements();)
+            {
+                NetworkInterface e = n.nextElement();
+
+                Enumeration<InetAddress> a = e.getInetAddresses();
+                for (; a.hasMoreElements();)
+                {
+                    InetAddress addr = a.nextElement();
+//                System.out.println("  " + addr.getHostAddress());
+                    if (addr instanceof Inet4Address)
+                        if(!addr.getHostAddress().toString().equals("127.0.0.1"))
+                        //System.out.println(addr.getHostAddress());
+                    return addr;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return null;
     }
     public boolean isMain(){
         return isMain;
