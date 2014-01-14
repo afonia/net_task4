@@ -17,13 +17,14 @@ import java.net.Socket;
 public class ServerScaner implements Runnable{
     public String[] serverIPs;
     ServerMessenger parent;
+    public static Server server;
 
 
 
-
-    public ServerScaner(ServerMessenger parent){
+    public ServerScaner(ServerMessenger parent,Server server){
         this.parent = parent;
         serverIPs = parent.getSubnetIps();
+        ServerScaner.server = server;
     }
 
     @Override
@@ -82,6 +83,7 @@ public class ServerScaner implements Runnable{
                 //System.out.println("client:"+input);
                 ret = ret + input;
             }
+            server.ExecuteMessege(input);
 //            if(input!=null) sumbit(ip);
             //System.out.println("Scaning stop:" + ip);
             fromserver.close();
@@ -112,7 +114,7 @@ public class ServerScaner implements Runnable{
             while ((input = in.readLine())!=null){
                 //System.out.println(input);
                 if(input.equals(Dictionary.End)) break;
-                if(input == Dictionary.Confirm)ret = true;
+                if(input == Dictionary.Confirm) ret = true;
                 System.out.println("Scaner get:"+input);
             }
             fromserver.close();

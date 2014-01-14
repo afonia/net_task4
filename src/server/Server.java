@@ -23,7 +23,9 @@ public class Server implements Runnable{
     public void sinhronizeMails(String[] ips){
         Gson gson = new Gson();
         String mesege = gson.toJson(emails,listOfEmails);
-
+        for (String ip:ips){
+            ServerScaner.SendMessegeToServer(ip,mesege);
+        }
     }
 
     public void ExecuteMessege(String messege){
@@ -73,7 +75,34 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
-        new Thread(new ServerMessenger()).start();
+        new Thread(new ServerMessenger(this)).start();
+        while (!ServerMessenger.exit){
+            if(isMainServer()){
+//                chekServers();
+//                GetMails();
+//                SetMails();
 
+
+            }
+        }
+    }
+    public void chekServers(String[] ips){
+        for(String ip: ips){
+            if(!ServerScaner.hasConnectionWith(ip)){
+            }
+        }
+    }
+    public void GetMails(String[] ips){
+        for (String ip:ips){
+            String messege = Dictionary.GetEmail + ServerMessenger.ip;
+            ServerScaner.SendMessegeToServer(ip,messege);
+        }
+    }
+    public void SetMails(String[] ips){
+        Gson gson = new Gson();
+        for (String ip:ips){
+            String messege = Dictionary.GetEmail + gson.toJson(emails,listOfEmails);
+            ServerScaner.SendMessegeToServer(ip,messege);
+        }
     }
 }

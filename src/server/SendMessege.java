@@ -30,7 +30,7 @@ public class SendMessege {
 
         // Get a mail session
         Session session = Session.getInstance(props,
-            new javax.mail.Authenticator() {
+            new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(user, password);
                 }
