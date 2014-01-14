@@ -40,6 +40,6 @@ public class MainController implements Runnable {
         return false;
     }
     public boolean hasMain(){
-        return false;
+        return serverLisener.hasMain;
     }
 }

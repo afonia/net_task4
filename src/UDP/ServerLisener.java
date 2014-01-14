@@ -136,21 +136,18 @@ public class ServerLisener implements Runnable{
     }
 
     public InetAddress getInternetAddress(){
-
         try {
             Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
             for (; n.hasMoreElements();)
             {
                 NetworkInterface e = n.nextElement();
-
+                if(!e.getName().toString().equals("wlan0")) continue;
                 Enumeration<InetAddress> a = e.getInetAddresses();
                 for (; a.hasMoreElements();)
                 {
                     InetAddress addr = a.nextElement();
-//                System.out.println("  " + addr.getHostAddress());
                     if (addr instanceof Inet4Address)
-                        if(!addr.getHostAddress().toString().equals("127.0.0.1"))
-                        //System.out.println(addr.getHostAddress());
+                        //System.out.println(""+addr.getHostAddress());
                     return addr;
                 }
             }
