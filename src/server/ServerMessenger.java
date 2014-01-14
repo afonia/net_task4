@@ -24,12 +24,14 @@ public class ServerMessenger implements Runnable {
     private Socket fromClient = null;
     private BufferedReader in = null;
     private PrintWriter out = null;
-    public boolean exit = false;
+    public static boolean exit = false;
+    public Server parent;
 
 
-    public ServerMessenger(){
+    public ServerMessenger(Server parent){
         try {
             serverSocket = new ServerSocket(port);
+            this.parent = parent;
             //System.out.println("Messenger inited");
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +63,7 @@ public class ServerMessenger implements Runnable {
     public void run() {
         try {
             //System.out.println("Messenger Start");
-            new Thread( new ServerScaner(this)).start();
+            new Thread( new ServerScaner(this,parent)).start();
 
             while (!exit){
                 //System.out.println("Messenger wait for messege");
