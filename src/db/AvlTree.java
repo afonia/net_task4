@@ -18,6 +18,8 @@ public class AvlTree  {
     public AvlNode root; // the root node
     @Expose
     protected int lastInsertedKey = 1;
+    public AvlNode rootBack; // the root node
+
 /***************************** Core Functions ************************************/
 
     /**
@@ -57,9 +59,19 @@ public class AvlTree  {
                 if(p.left==null) {
                     p.left = q;
                     q.parent = p;
-
+                    //Object obj = (Object)root;
+                 //   rootBack = (AvlNode)root.clone();
+                    rootBack = root;
                     // Node is inserted now, continue checking the balance
                     recursiveBalance(p);
+
+                    if(root.ip != rootBack.ip)  {
+                        String ipBack = root.ip;
+                        root.ip = new String(rootBack.ip);
+                        root.main = true;
+                        rootBack.main = false;
+                        rootBack.ip = ipBack;
+                    }
                 } else {
                     insertAVL(p.left,q);
                 }
@@ -70,7 +82,15 @@ public class AvlTree  {
                     q.parent = p;
 
                     // Node is inserted now, continue checking the balance
+                    rootBack = root;
                     recursiveBalance(p);
+                    if(root.ip != rootBack.ip)  {
+                        String ipBack = root.ip;
+                        root.ip = new String(rootBack.ip);
+                        root.main = true;
+                        rootBack.main = false;
+                        rootBack.ip = ipBack;
+                    }
                 } else {
                     insertAVL(p.right,q);
                 }
@@ -112,7 +132,7 @@ public class AvlTree  {
             recursiveBalance(cur.parent);
         } else {
             this.root = cur;
-            System.out.println("------------ Balancing finished ----------------");
+          //  System.out.println("------------ Balancing finished ----------------");
         }
     }
 

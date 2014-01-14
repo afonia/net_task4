@@ -34,4 +34,13 @@ public class AvlNode implements Serializable {
         return "" + key;
     }
 
+    public Object clone(){
+        Object obj = null;
+        try {
+            obj = super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return obj;
+    }
 }

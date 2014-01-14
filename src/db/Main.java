@@ -28,13 +28,13 @@ public class Main {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String js = gson.toJson(avlTree);
         avlTree.debug(avlTree.root);
-        //System.out.println(js);
+        //System.out.println(avlTree.root.main);
         AvlTree avlN = gson.fromJson(js, AvlTree.class);
         avlN.returnParent();
         // avlTree.removeByIp("th5");
 
       //  avlTree.debug(avlTree.root);
        avlTree.debug(avlN.root);
-      //System.out.println(avlN.root);
+    //  System.out.println(avlN.root.ip);
     }
 }
