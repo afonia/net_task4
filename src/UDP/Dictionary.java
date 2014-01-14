@@ -9,8 +9,8 @@ package UDP;
  */
 public class Dictionary {
     //dictionary
-    public static String HiMessege = "Hi from:";
-    public static String Messege = "Messege:";
+    public static String AVLUbdates = "AVLUbdates";
+    public static String MessegeUbtates = "MessegeUbtstes:";
     public static String Confirm = "I get";
     public static String End = "#";
     public static String Mails = "Mails:";
