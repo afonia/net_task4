@@ -30,7 +30,7 @@ public class MainController implements Runnable {
                 serverLisener.BroadCastMessege(Dictionary.HiMessege + Dictionary.End);
             }
 
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }

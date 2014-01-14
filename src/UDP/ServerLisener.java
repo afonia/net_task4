@@ -82,7 +82,8 @@ public class ServerLisener implements Runnable{
     public void BroadCastMessege(String messege) {
         try {
             byte[] sendData = messege.getBytes();
-            InetAddress brodcastIP = InetAddress.getByName("239.255.255.255");
+            InetAddress brodcastIP = InetAddress.getByName("192.168.0.255");
+            System.out.println(brodcastIP);
             DatagramPacket sendPacket =
                     new DatagramPacket(sendData, sendData.length, brodcastIP, Dictionary.Port);
             serverSocket.send(sendPacket);
@@ -132,6 +133,7 @@ public class ServerLisener implements Runnable{
         return isMain;
     }
     public void setMain(){
+        System.out.println("set main");
         isMain = true;
     }
     public void AddUnit(){
