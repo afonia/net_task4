@@ -95,6 +95,7 @@ public class ServerLisener implements Runnable{
     }
 
     public String FormAnswer(String messege,InetAddress ip){
+        System.out.println("messege:"+messege);
         if(messege.contains(Dictionary.HiMessege)){
             if(isMain()){
                 return Dictionary.HiFromMain;
@@ -124,7 +125,8 @@ public class ServerLisener implements Runnable{
         if(messege.contains(Dictionary.AreYouHere)){
             return Dictionary.Confirm;
         }
-        return "Unsuuported messeg";
+        if(messege.contains(Dictionary.Unsopproted)) return null;
+        return Dictionary.Unsopproted;
     }
     public boolean isMain(){
         return isMain;

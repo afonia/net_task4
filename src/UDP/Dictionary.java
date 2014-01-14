@@ -21,6 +21,8 @@ public class Dictionary {
     public static String HiMain = "Hi, Main";
     public static String ByMainServer = "ByMainServer";
     public static String AreYouHere = "Are you here?";
+    public static String Unsopproted = "Unsuuported messege";
+
     public static int Port = 5555;
 
 
