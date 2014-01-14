@@ -15,8 +15,8 @@ import java.util.HashMap;
 public class ServerLisener implements Runnable{
     DatagramSocket serverSocket = null;
     MainController parent;
-    boolean isMain = false;
-    boolean hasMain = false;
+    boolean isMain = true;
+    boolean hasMain = true;
     public ServerLisener(MainController parent){
         try {
             this.parent = parent;
@@ -99,6 +99,7 @@ public class ServerLisener implements Runnable{
 
     public String FormAnswer(String messege,InetAddress ip){
         System.out.println(" from"+ip+" messege:"+messege);
+
         if(messege.contains(Dictionary.IAmAlone)){
             if(isMain()){
                 return Dictionary.HiFromMain;
@@ -110,9 +111,13 @@ public class ServerLisener implements Runnable{
             }
         }
         if(isMain()){
+            if(messege.contains(Dictionary.IAmMain)){
+                isMain = false;
+                return Dictionary.HiMain;
+            }
             if(messege.contains(Dictionary.HiMain)){
                 AddUnit();
-                return null;
+                return Dictionary.Confirm;
             }
         }else {
             if(messege.contains(Dictionary.ByMainServer)){
