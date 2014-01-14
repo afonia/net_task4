@@ -27,7 +27,7 @@ public class MainController implements Runnable {
             try {
             if(!hasMain()){
 
-                serverLisener.BroadCastMessege(Dictionary.HiMessege + Dictionary.End);
+                serverLisener.BroadCastMessege(Dictionary.IAmAlone + Dictionary.End);
             }
 
                 Thread.sleep(5000);

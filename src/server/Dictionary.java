@@ -17,6 +17,7 @@ public class Dictionary {
     public static String GetEmail = "Get Emails:";
     public static String Sended = "sended";
     public static String SendMails = "send mails";
+    public static String IAmAlone = "I am alone";
 
 
 }

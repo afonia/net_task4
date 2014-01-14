@@ -16,6 +16,7 @@ public class ServerLisener implements Runnable{
     DatagramSocket serverSocket = null;
     MainController parent;
     boolean isMain = false;
+    boolean hasMain = false;
     public ServerLisener(MainController parent){
         try {
             this.parent = parent;
@@ -49,6 +50,8 @@ public class ServerLisener implements Runnable{
                     if(messege.contains(Dictionary.End)){
                         String answer = FormAnswer(messege,IPfrom);
                         if(answer!=null){
+                            answer+=Dictionary.End;
+                            if(isMain) answer+=Dictionary.ByMainServer;
                             sendData = answer.getBytes();//уязвимое место, нужно протестить
                             DatagramPacket sendPacket =
                                     new DatagramPacket(sendData, sendData.length, IPfrom, Dictionary.Port);
@@ -71,7 +74,7 @@ public class ServerLisener implements Runnable{
                 }else {
                     messeges.put(IPfrom,sentence);
                 }
-                System.out.println("RECEIVED: " + sentence);
+                //System.out.println("RECEIVED: " + sentence);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -95,8 +98,8 @@ public class ServerLisener implements Runnable{
     }
 
     public String FormAnswer(String messege,InetAddress ip){
-        System.out.println("messege:"+messege);
-        if(messege.contains(Dictionary.HiMessege)){
+        System.out.println(" from"+ip+" messege:"+messege);
+        if(messege.contains(Dictionary.IAmAlone)){
             if(isMain()){
                 return Dictionary.HiFromMain;
             }else if(hasMain()){
@@ -116,6 +119,9 @@ public class ServerLisener implements Runnable{
                 if(messege.contains(Dictionary.Mails)){
                     messege.replace(Dictionary.ByMainServer,"");
                     messege.replace(Dictionary.Mails,"");
+                }
+                if(messege.contains(Dictionary.HiFromMain)){
+                    IgetMain();
                 }
                 return null;
             }else{
@@ -157,11 +163,15 @@ public class ServerLisener implements Runnable{
         return isMain;
     }
     public boolean hasMain(){
-        return isMain;
+        return hasMain;
     }
     public void setMain(){
-        System.out.println("set main");
+        System.err.println("set main");
         isMain = true;
+    }
+    public void IgetMain(){
+        System.err.println(" I found  main");
+        hasMain = true;
     }
     public void AddUnit(){
         System.out.println("Unit addet");
