@@ -12,6 +12,15 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
+        EmailManager emailManager = new EmailManager();
+        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест1", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест2", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест3", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+
+
+        emailManager.mapSend.put("10.0.0.0", new int[]{0, 1 ,2 ,3});
+        emailManager.sendEmails("10.0.0.0");
       //  List<Integer> test0 = Arrays.asList(1, 1);
        // List<Integer> test1 = Arrays.asList(1,1);
      /*   int[] a = {1,2,3};

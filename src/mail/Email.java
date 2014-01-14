@@ -15,6 +15,15 @@ public class Email {
     String user;
     String password;
 
+    public Email(String to, String subject, String messageBody, String host, String user, String password) {
+        this.to = to;
+        this.subject = subject;
+        this.messageBody = messageBody;
+        this.host = host;
+        this.user = user;
+        this.password = password;
+    }
+
     public String getTo() {
         return to;
     }
