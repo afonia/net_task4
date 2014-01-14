@@ -90,7 +90,7 @@ public class ServerLisener implements Runnable{
             DatagramPacket sendPacket =
                     new DatagramPacket(sendData, sendData.length, brodcastIP, Dictionary.Port);
             serverSocket.send(sendPacket);
-            System.out.println("broadcast");
+            System.out.println("broadcast:"+messege);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -120,6 +120,7 @@ public class ServerLisener implements Runnable{
                 return Dictionary.Confirm;
             }
         }else {
+
             if(messege.contains(Dictionary.ByMainServer)){
                 if(messege.contains(Dictionary.Mails)){
                     messege.replace(Dictionary.ByMainServer,"");
