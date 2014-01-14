@@ -1,6 +1,8 @@
 package UDP;
 
 import avl.AvlTree;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import mail.Email;
 import mail.EmailManager;
 
@@ -21,15 +23,18 @@ public class MainController implements Runnable {
     ServerLisener serverLisener;
     AvlTree avlTree;
     EmailManager emailManager;
-
-
+    String ip;
+    boolean HasUbtatesForAVL = false;
+    boolean HasUbtatesForMails = false;
 
     public MainController(){
         serverLisener = new ServerLisener(this);
+        ip = serverLisener.getInternetAddress().toString();
         avlTree = new AvlTree();
-        avlTree.insert(serverLisener.getInternetAddress().toString(), null);
+        avlTree.insert(ip, null);
         emailManager = new EmailManager();
         initMails();
+
 
         new Thread(serverLisener).start();
     }
@@ -53,6 +58,22 @@ public class MainController implements Runnable {
             try {
             if(isMain()){
                 serverLisener.BroadCastMessege(Dictionary.IAmMain + Dictionary.End);
+                if(avlTree.root.key*2-1>2) {
+                    if(HasUbtatesForAVL){
+                        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                        String js = gson.toJson(avlTree);
+                        String messege = Dictionary.ByMainServer + Dictionary.AVLUbdates + js + Dictionary.End;
+                        serverLisener.BroadCastMessege(messege);
+                        HasUbtatesForAVL = false;
+                    }
+                    if(HasUbtatesForMails){
+                        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                        String js = gson.toJson(emailManager);
+                        String messege = Dictionary.ByMainServer + Dictionary.MessegeUbtates + js + Dictionary.End;
+                        serverLisener.BroadCastMessege(messege);
+                        HasUbtatesForMails = false;
+                    }
+                }
             }
                 Thread.sleep(10000);
             } catch (Exception e) {
@@ -61,9 +82,7 @@ public class MainController implements Runnable {
         }
     }
     public boolean isMain(){
-        return serverLisener.isMain;
+        return avlTree.isMain(ip);
     }
-    public boolean hasMain(){
-        return serverLisener.hasMain;
-    }
+
 }
