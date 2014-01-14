@@ -344,7 +344,7 @@ public class AvlTree  {
      * @param cur
      * @return The height of a node (-1, if node is not existent eg. NULL).
      */
-    private int height(AvlNode cur) {
+    public int height(AvlNode cur) {
         if(cur==null) {
             return -1;
         }
@@ -513,4 +513,18 @@ public class AvlTree  {
             returnParentCurrent(n.right, n);
         }
     }
+
+    public boolean notAlone() {
+        if(root.left !=null ) {
+            return true;
+        }
+        if(root.right !=null ) {
+            return true;
+        }
+        if(root.parent !=null ) {
+            return true;
+        }
+        return false;
+    }
+
 }
