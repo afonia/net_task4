@@ -23,6 +23,7 @@ public class Dictionary {
     public static String AreYouHere = "Are you here?";
     public static String Unsopproted = "Unsuuported messege";
     public static String IAmAlone = "I am alone";
+    public static String IAmMain = "IAmMain";
 
     public static int Port = 5555;
 

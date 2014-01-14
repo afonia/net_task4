@@ -25,19 +25,17 @@ public class MainController implements Runnable {
         System.out.println("mainController start");
         while (true){
             try {
-            if(!hasMain()){
-
-                serverLisener.BroadCastMessege(Dictionary.IAmAlone + Dictionary.End);
+            if(isMain()){
+                serverLisener.BroadCastMessege(Dictionary.IAmMain + Dictionary.End);
             }
-
-                Thread.sleep(5000);
+                Thread.sleep(10000);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
     }
     public boolean isMain(){
-        return false;
+        return serverLisener.isMain;
     }
     public boolean hasMain(){
         return serverLisener.hasMain;
