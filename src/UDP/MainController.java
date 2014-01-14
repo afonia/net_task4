@@ -16,13 +16,6 @@ import java.net.SocketException;
 public class MainController implements Runnable {
     ServerLisener serverLisener;
 
-    public static void main(String[] args) {
-        try {
-            new Thread(new MainController()).start();
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
     public MainController(){
         serverLisener = new ServerLisener(this);
         new Thread(serverLisener).start();

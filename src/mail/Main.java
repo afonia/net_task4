@@ -13,15 +13,15 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         EmailManager emailManager = new EmailManager();
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест1", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест2", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест3", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест4", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест5", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест6", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("salerat@gmail.com", "мой тест7", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-       // emailManager.emails.add(new Email("salerat@gmail.com", "мой тест8", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест1", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест2", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест3", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест4", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест5", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест6", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест7", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+       // emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест8", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
 
         emailManager.createSendListInMain(new String[]{"10.0.0.0" , "10.0.0.1"});
        // emailManager.mapSend.put("10.0.0.0", new int[]{5, 6 ,7 ,8});
