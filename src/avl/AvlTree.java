@@ -1,13 +1,18 @@
-package db;
+package avl;
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 
 /**
  * This class is the complete and tested implementation of an AVL-tree.
  */
-public class AvlTree {
-
+public class AvlTree  {
+    @Expose
     public AvlNode root; // the root node
+    @Expose
     protected int lastInsertedKey = 1;
+    public AvlNode rootBack; // the root node
+
 /***************************** Core Functions ************************************/
 
     /**
@@ -38,6 +43,7 @@ public class AvlTree {
     public void insertAVL(AvlNode p, AvlNode q) {
         // If  node to compare is null, the node is inserted. If the root is null, it is the root of the tree.
         if(p==null) {
+            q.main = true;
             this.root=q;
         } else {
 
@@ -46,9 +52,19 @@ public class AvlTree {
                 if(p.left==null) {
                     p.left = q;
                     q.parent = p;
-
+                    //Object obj = (Object)root;
+                 //   rootBack = (AvlNode)root.clone();
+                    rootBack = root;
                     // Node is inserted now, continue checking the balance
                     recursiveBalance(p);
+
+                    if(root.ip != rootBack.ip)  {
+                        String ipBack = root.ip;
+                        root.ip = new String(rootBack.ip);
+                        root.main = true;
+                        rootBack.main = false;
+                        rootBack.ip = ipBack;
+                    }
                 } else {
                     insertAVL(p.left,q);
                 }
@@ -59,7 +75,15 @@ public class AvlTree {
                     q.parent = p;
 
                     // Node is inserted now, continue checking the balance
+                    rootBack = root;
                     recursiveBalance(p);
+                    if(root.ip != rootBack.ip)  {
+                        String ipBack = root.ip;
+                        root.ip = new String(rootBack.ip);
+                        root.main = true;
+                        rootBack.main = false;
+                        rootBack.ip = ipBack;
+                    }
                 } else {
                     insertAVL(p.right,q);
                 }
@@ -101,7 +125,7 @@ public class AvlTree {
             recursiveBalance(cur.parent);
         } else {
             this.root = cur;
-            System.out.println("------------ Balancing finished ----------------");
+          //  System.out.println("------------ Balancing finished ----------------");
         }
     }
 
@@ -109,6 +133,14 @@ public class AvlTree {
      * Removes a node from the tree, if it is existent.
      */
     public void remove(int k) {
+        // First we must find the node, after this we can delete it.
+        removeAVL(this.root,k);
+    }
+
+    public void removeByIp(String ip) {
+
+        Integer k = findKeyByIp(ip);
+
         // First we must find the node, after this we can delete it.
         removeAVL(this.root,k);
     }
@@ -129,8 +161,14 @@ public class AvlTree {
             } else if(p.key<q) {
                 removeAVL(p.right,q);
             } else if(p.key==q) {
+                if(p.main) {
+                    removeFoundNode(p);
+                    root.main = true;
+                } else {
+                    removeFoundNode(p);
+                }
                 // we found the node in the tree.. now lets go on!
-                removeFoundNode(p);
+
             }
         }
     }
@@ -351,7 +389,7 @@ public class AvlTree {
             p = n.parent.key;
         }
 
-        System.out.println("Left: "+l+" Key: "+n+" Right: "+r+" Parent: "+p+" Balance: "+n.balance);
+        System.out.println("Left: "+l+" Key: "+n+" Right: "+r+" Parent: "+p+" Balance: "+n.balance+" Main: "+n.main);
 
         if(n.left!=null) {
             debug(n.left);
@@ -391,5 +429,88 @@ public class AvlTree {
         inorder(n.left, io);
         io.add(n);
         inorder(n.right, io);
+    }
+
+    public boolean isMain(String ip) {
+        if(root.ip == ip) {
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<String> getIpList() {
+        return getIpListRecursion(root);
+    }
+
+    public ArrayList<String> getIpListRecursion(AvlNode cur) {
+        if( cur == null ) {
+            return null;
+        }
+        ArrayList<String> ipList = new ArrayList<String>();
+        ipList.add(cur.ip);
+        boolean outChildLeft = true;
+        boolean outChildRight = true;
+        if(cur.left != null) {
+            ArrayList<String> ipListLeft = getIpListRecursion(cur.left);
+            if(ipListLeft !=null ) {
+                ipList.addAll(ipListLeft);
+            } else {
+                outChildLeft = false;
+            }
+        }
+        if(cur.right != null) {
+            ArrayList<String> ipListRight = getIpListRecursion(cur.right);
+            if(ipListRight !=null ) {
+                ipList.addAll(ipListRight);
+            } else {
+                outChildRight = false;
+            }
+        }
+        if( (!outChildLeft) && (!outChildRight)) {
+            return null;
+        } else {
+            return ipList;
+        }
+    }
+
+    public Integer findKeyByIp(String ip) {
+        return findKeyByIpRecursion(root, ip);
+    }
+
+    public Integer findKeyByIpRecursion(AvlNode cur, String ip) {
+        if( cur == null ) {
+            return null;
+        }
+
+        if(cur.ip == ip) {
+            return cur.key;
+        }
+
+        if(cur.left != null) {
+            Integer keyLeft = findKeyByIpRecursion(cur.left, ip);
+            if(keyLeft !=null ) {
+                return keyLeft;
+            }
+        }
+        if(cur.right != null) {
+            Integer keyRight = findKeyByIpRecursion(cur.right, ip);
+            if(keyRight !=null ) {
+                return keyRight;
+            }
+        }
+        return null;
+    }
+
+    public void returnParent() {
+        returnParentCurrent(this.root, null);
+    }
+    public void returnParentCurrent(AvlNode n, AvlNode parent) {
+        n.parent = parent;
+        if(n.left!=null) {
+            returnParentCurrent(n.left, n);
+        }
+        if(n.right!=null) {
+            returnParentCurrent(n.right, n);
+        }
     }
 }
