@@ -1,5 +1,7 @@
 package db;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +17,17 @@ public class Main {
     public static void main(String[] args) throws IOException {
         AvlTree avlTree = new AvlTree();
         avlTree.insert("th1", null);
-        avlTree.insert("th2", null);
-        avlTree.insert("th3", null);
-        avlTree.insert("th4", null);
-        avlTree.insert("th5", null);
-        avlTree.insert("th6", null);
-        avlTree.insert("th7", null);
-        avlTree.removeByIp("th5");
-        System.out.println(avlTree.findKeyByIp("th5"));
+        AvlNode avlN = avlTree.unserialize("sadasd");
+      //  avlTree.insert("th2", null);
+      //  avlTree.insert("th3", null);
+     //   avlTree.insert("th4", null);
+     //   avlTree.insert("th5", null);
+      //  avlTree.insert("th6", null);
+      //  avlTree.insert("th7", null);
+       // Gson json = new Gson();
+       // String js = json.toJson(avlTree.root);
+       // avlTree.removeByIp("th5");
+        //System.out.println(js);
+        System.out.println(avlN.ip);
     }
 }

@@ -1,7 +1,14 @@
 package db;
 
+import base64encode.Base64Coder.Base64Coder;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /** Here is the AVL-Node class for Completenesse **/
-public class AvlNode {
+public class AvlNode implements Serializable {
     public AvlNode left;
     public AvlNode right;
     public AvlNode parent;
@@ -18,4 +25,5 @@ public class AvlNode {
     public String toString() {
         return "" + key;
     }
+
 }

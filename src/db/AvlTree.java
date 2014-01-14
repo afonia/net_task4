@@ -1,10 +1,18 @@
 package db;
+import base64encode.Base64Coder.Base64Coder;
+import com.sun.xml.internal.txw2.output.XmlSerializer;
+
+import java.io.*;
+import java.security.Certificate;
 import java.util.ArrayList;
+import java.lang.StringBuilder;
+import java.util.*;
+import java.io.*;
 
 /**
  * This class is the complete and tested implementation of an AVL-tree.
  */
-public class AvlTree {
+public class AvlTree  {
 
     public AvlNode root; // the root node
     protected int lastInsertedKey = 1;
@@ -470,5 +478,54 @@ public class AvlTree {
         }
         return null;
     }
+    public String toStringAvlNode( Serializable o ) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( o );
+        oos.close();
 
+        return new String( Base64Coder.encode(baos.toByteArray()) );
+    }
+
+    public Object fromStringAvlNode( String s ) throws IOException ,
+            ClassNotFoundException {
+        byte [] data = Base64Coder.decode( s );
+        ObjectInputStream ois = new ObjectInputStream(
+                new ByteArrayInputStream(  data ) );
+        Object o  = ois.readObject();
+        ois.close();
+        return o;
+    }
+
+    /**
+     * Serialize the tree to a string using an infix traversal.
+     *
+     * In other words, the tree items will be serialized in numeric order.
+     *
+     * @return String representation of the tree
+     */
+    public String serialize(){
+        String string = null;
+        try {
+            string = toStringAvlNode(root);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return string;
+
+    }
+
+    public AvlNode unserialize(String s){
+        String string = serialize();
+        AvlNode avlNode = null;
+        try {
+            avlNode = (AvlNode)fromStringAvlNode(string);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return avlNode;
+
+    }
 }
