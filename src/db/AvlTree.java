@@ -1,5 +1,6 @@
 package db;
 import base64encode.Base64Coder.Base64Coder;
+import com.google.gson.annotations.Expose;
 import com.sun.xml.internal.txw2.output.XmlSerializer;
 
 import java.io.*;
@@ -13,8 +14,9 @@ import java.io.*;
  * This class is the complete and tested implementation of an AVL-tree.
  */
 public class AvlTree  {
-
+    @Expose
     public AvlNode root; // the root node
+    @Expose
     protected int lastInsertedKey = 1;
 /***************************** Core Functions ************************************/
 
@@ -46,6 +48,7 @@ public class AvlTree  {
     public void insertAVL(AvlNode p, AvlNode q) {
         // If  node to compare is null, the node is inserted. If the root is null, it is the root of the tree.
         if(p==null) {
+            q.main = true;
             this.root=q;
         } else {
 
@@ -367,7 +370,7 @@ public class AvlTree  {
             p = n.parent.key;
         }
 
-        System.out.println("Left: "+l+" Key: "+n+" Right: "+r+" Parent: "+p+" Balance: "+n.balance);
+        System.out.println("Left: "+l+" Key: "+n+" Right: "+r+" Parent: "+p+" Balance: "+n.balance+" Main: "+n.main);
 
         if(n.left!=null) {
             debug(n.left);
@@ -478,54 +481,17 @@ public class AvlTree  {
         }
         return null;
     }
-    public String toStringAvlNode( Serializable o ) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream( baos );
-        oos.writeObject( o );
-        oos.close();
 
-        return new String( Base64Coder.encode(baos.toByteArray()) );
+    public void returnParent() {
+        returnParentCurrent(this.root, null);
     }
-
-    public Object fromStringAvlNode( String s ) throws IOException ,
-            ClassNotFoundException {
-        byte [] data = Base64Coder.decode( s );
-        ObjectInputStream ois = new ObjectInputStream(
-                new ByteArrayInputStream(  data ) );
-        Object o  = ois.readObject();
-        ois.close();
-        return o;
-    }
-
-    /**
-     * Serialize the tree to a string using an infix traversal.
-     *
-     * In other words, the tree items will be serialized in numeric order.
-     *
-     * @return String representation of the tree
-     */
-    public String serialize(){
-        String string = null;
-        try {
-            string = toStringAvlNode(root);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    public void returnParentCurrent(AvlNode n, AvlNode parent) {
+        n.parent = parent;
+        if(n.left!=null) {
+            returnParentCurrent(n.left, n);
         }
-        return string;
-
-    }
-
-    public AvlNode unserialize(String s){
-        String string = serialize();
-        AvlNode avlNode = null;
-        try {
-            avlNode = (AvlNode)fromStringAvlNode(string);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        if(n.right!=null) {
+            returnParentCurrent(n.right, n);
         }
-        return avlNode;
-
     }
 }
