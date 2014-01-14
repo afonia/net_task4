@@ -1,14 +1,7 @@
-package db;
-import base64encode.Base64Coder.Base64Coder;
+package avl;
 import com.google.gson.annotations.Expose;
-import com.sun.xml.internal.txw2.output.XmlSerializer;
 
-import java.io.*;
-import java.security.Certificate;
 import java.util.ArrayList;
-import java.lang.StringBuilder;
-import java.util.*;
-import java.io.*;
 
 /**
  * This class is the complete and tested implementation of an AVL-tree.

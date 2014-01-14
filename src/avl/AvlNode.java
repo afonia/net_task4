@@ -1,11 +1,7 @@
-package db;
+package avl;
 
-import base64encode.Base64Coder.Base64Coder;
 import com.google.gson.annotations.Expose;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /** Here is the AVL-Node class for Completenesse **/
