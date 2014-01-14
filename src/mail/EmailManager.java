@@ -28,7 +28,7 @@ public class EmailManager {
             sendEmail(ip);
             sendArray =  (int[])mapSend.get(ip);
             try {
-                System.out.println( sendArray.length);
+               // System.out.println( sendArray.length);
 
                 if(sendArray.length !=0 ) {
                     System.out.println("wait");
@@ -49,28 +49,60 @@ public class EmailManager {
     protected boolean sendEmail(String ip) {
         SendMessage sendMessage = new SendMessage();
         int[] sendArray =  (int[])mapSend.get(ip);
+        //System.out.println(sendArray[2]);
         int sendCounter = 0;
         Email curEmail = null;
-        for(int i : sendArray) {
+        for(int i=0; i<sendArray.length;i++) {
             if(sendCounter >= sendEmail)  {
                 break;
             }
-            curEmail = (Email)emails.get(i);
-            System.out.println("send" + i);
+            curEmail = (Email)emails.get(sendArray[i]);
+            System.out.println(curEmail.getSubject() + " send" + i);
             try {
-                sendMessage.sendMail(curEmail.getTo(), curEmail.getSubject(), curEmail.getMessageBody(), curEmail.getHost(), curEmail.getUser(), curEmail.getPassword());
+                sendMessage.sendMail(curEmail.getTo(), curEmail.getSubject(), curEmail.getMessageBody() + ip, curEmail.getHost(), curEmail.getUser(), curEmail.getPassword());
             } catch (MessagingException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
           //  System.out.println(i);
            // System.out.println(sendArray[0]);
-            sendArray =ArrayUtils.removeElement(sendArray, i);
+            sendArray =ArrayUtils.removeElement(sendArray, sendArray[i]);
             mapSend.remove(ip);
             mapSend.put(ip, sendArray);
             //System.out.println(sendArray[0]);
             sendCounter++;
         }
         return true;
+    }
+
+    public void updateMapSendInMain(String ip, int[] array) {
+        mapSend.remove(ip);
+        mapSend.put(ip, array);
+    }
+
+    public void createSendListInMain(String[] ips) {
+        int count= ips.length;
+        mapSend = new Hashtable<String,Object>();
+        int emailCountSize =  emails.size();
+        int emailCount =  emailCountSize / count;
+        int counter = 0;
+        for(String str : ips) {
+            int[] ourArray = null;
+            if( (counter == 0) && (emailCountSize%count != 0) ) {
+                ourArray = new int[emailCount+1];
+                for(int i =0; i < emailCount;i++) {
+                    ourArray[i] =  counter*emailCount + i;
+                }
+                ourArray[emailCount] = emailCountSize-1;
+            }  else {
+                ourArray = new int[emailCount];
+                for(int i =0; i < emailCount;i++) {
+                    ourArray[i] =  counter*emailCount + i;
+                }
+            }
+            mapSend.put(str, ourArray);
+            counter++;
+        }
+
     }
    // public ArrayList list
 }

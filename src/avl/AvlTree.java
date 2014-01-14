@@ -161,8 +161,14 @@ public class AvlTree  {
             } else if(p.key<q) {
                 removeAVL(p.right,q);
             } else if(p.key==q) {
+                if(p.main) {
+                    removeFoundNode(p);
+                    root.main = true;
+                } else {
+                    removeFoundNode(p);
+                }
                 // we found the node in the tree.. now lets go on!
-                removeFoundNode(p);
+
             }
         }
     }
