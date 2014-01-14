@@ -1,5 +1,9 @@
 package UDP;
 
+import avl.AvlTree;
+import mail.Email;
+import mail.EmailManager;
+
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -15,11 +19,33 @@ import java.net.SocketException;
  */
 public class MainController implements Runnable {
     ServerLisener serverLisener;
+    AvlTree avlTree;
+    EmailManager emailManager;
+
+
 
     public MainController(){
         serverLisener = new ServerLisener(this);
+        avlTree = new AvlTree();
+        avlTree.insert(serverLisener.getInternetAddress().toString(), null);
+        emailManager = new EmailManager();
+        initMails();
+
         new Thread(serverLisener).start();
     }
+
+    private void initMails() {
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест1", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест2", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест3", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест4", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест5", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест6", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест7", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+
+    }
+
     @Override
     public void run() {
         System.out.println("mainController start");
