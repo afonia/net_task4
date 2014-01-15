@@ -89,7 +89,7 @@ public class ServerLisener implements Runnable{
     public void BroadCastMessege(String messege) {
         try {
             byte[] sendData = messege.getBytes();
-            InetAddress brodcastIP = InetAddress.getByName("192.168.0.255");
+            InetAddress brodcastIP = InetAddress.getByName("239.255.255.255");
             System.out.println(brodcastIP);
             DatagramPacket sendPacket =
                     new DatagramPacket(sendData, sendData.length, brodcastIP, Dictionary.Port);
@@ -106,8 +106,8 @@ public class ServerLisener implements Runnable{
 
         if(parent.isMain()){
             if(messege.contains(Dictionary.IAmMain)){
-                parent.broadcastNum = -2;
-                return Dictionary.HiMain;
+                    parent.broadcastNum = -4;
+                    return Dictionary.HiMain;
             }
             if(messege.contains(Dictionary.HiMain)){
                 parent.addToAvl(ip.getHostAddress());

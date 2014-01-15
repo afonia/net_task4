@@ -9,7 +9,7 @@ import mail.EmailManager;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-
+import java.util.List;
 
 
 /**
@@ -79,22 +79,26 @@ public class MainController implements Runnable {
                     }
                 }
             }
-                Thread.sleep(10000);
+                Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
     }
     public boolean isMain(){
-        System.out.println("AVL3.is rot-------------"+avlTree.root.ip);
+        //System.out.println("AVL3.is rot-------------"+avlTree.root.ip);
         return avlTree.isMain(ip);
     }
     public void addToAvl(String ip){
         if(avlTree.findKeyByIp(ip)==null){
             avlTree.insert(ip,null);
+            List<String> t = avlTree.getIpList();
+            String[] ips = new String[t.size()];
+            ips = t.toArray(ips);
+            emailManager.createSendListInMain(ips);
             HasUbtatesForMails = true;
             HasUbtatesForAVL = true;
-            System.out.println(ip+"<------------------Added to avl");
+            //System.out.println(ip+"<------------------Added to avl");
         }
     }
     public void updateMails(String js){
@@ -103,7 +107,7 @@ public class MainController implements Runnable {
         emailManager = emailManager2;
     }
     public void updateAVL(String js){
-        System.out.println(js+"<-----------------------------------JS avl");
+       // System.out.println(js+"<-----------------------------------JS avl");
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         AvlTree avlN = gson.fromJson(js, AvlTree.class);
         avlTree = avlN;
