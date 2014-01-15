@@ -102,6 +102,7 @@ public class MainController implements Runnable {
         emailManager = emailManager2;
     }
     public void updateAVL(String js){
+        System.out.println(js+"<-----------------------------------JS avl");
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         AvlTree avlN = gson.fromJson(js, AvlTree.class);
         avlTree = avlN;

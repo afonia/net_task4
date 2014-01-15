@@ -119,14 +119,14 @@ public class ServerLisener implements Runnable{
             if(messege.contains(Dictionary.AVLUbdates)){
                 messege = messege.replace(Dictionary.ByMainServer,"");
                 messege = messege.replace(Dictionary.AVLUbdates,"");
-                messege = messege.substring(messege.indexOf(Dictionary.End));
+                messege = messege.substring(0,messege.indexOf(Dictionary.End));
                 parent.updateAVL(messege);
                 return null;
             }
             if(messege.contains(Dictionary.MessegeUbtates)){
                 messege = messege.replace(Dictionary.ByMainServer,"");
                 messege = messege.replace(Dictionary.MessegeUbtates,"");
-                messege = messege.substring(messege.indexOf(Dictionary.End));
+                messege = messege.substring(0,messege.indexOf(Dictionary.End));
                 parent.updateMails(messege);
                 return null;
             }
