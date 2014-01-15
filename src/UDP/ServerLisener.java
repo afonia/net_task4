@@ -113,26 +113,24 @@ public class ServerLisener implements Runnable{
                 parent.addToAvl(ip.getHostAddress());
                 return null;
             }
-        }else {
-            if(messege.contains(Dictionary.ByMainServer)){
-                if(messege.contains(Dictionary.AVLUbdates)){
-                    messege = messege.replace(Dictionary.ByMainServer,"");
-                    messege = messege.replace(Dictionary.AVLUbdates,"");
-                    messege = messege.substring(messege.indexOf(Dictionary.End));
-                    parent.updateAVL(messege);
-                    return null;
-                }
-                if(messege.contains(Dictionary.MessegeUbtates)){
-                    messege = messege.replace(Dictionary.ByMainServer,"");
-                    messege = messege.replace(Dictionary.MessegeUbtates,"");
-                    messege = messege.substring(messege.indexOf(Dictionary.End));
-                    parent.updateMails(messege);
-                    return null;
-                }
-                return null;
-            }else{
+        }
+
+        if(messege.contains(Dictionary.ByMainServer)){
+            if(messege.contains(Dictionary.AVLUbdates)){
+                messege = messege.replace(Dictionary.ByMainServer,"");
+                messege = messege.replace(Dictionary.AVLUbdates,"");
+                messege = messege.substring(messege.indexOf(Dictionary.End));
+                parent.updateAVL(messege);
                 return null;
             }
+            if(messege.contains(Dictionary.MessegeUbtates)){
+                messege = messege.replace(Dictionary.ByMainServer,"");
+                messege = messege.replace(Dictionary.MessegeUbtates,"");
+                messege = messege.substring(messege.indexOf(Dictionary.End));
+                parent.updateMails(messege);
+                return null;
+            }
+            return null;
         }
         if(messege.contains(Dictionary.AreYouHere)){
             return Dictionary.Confirm;

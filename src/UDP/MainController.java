@@ -57,6 +57,7 @@ public class MainController implements Runnable {
         System.out.println("mainController start");
         while (true){
             avlTree.debug(avlTree.root);
+            System.out.println();
             try {
             if(isMain()){
                 broadcastNum++;
@@ -88,7 +89,7 @@ public class MainController implements Runnable {
         return avlTree.isMain(ip);
     }
     public void addToAvl(String ip){
-        if(avlTree.findKeyByIp(ip)!=null){
+        if(avlTree.findKeyByIp(ip)==null){
             avlTree.insert(ip,null);
             HasUbtatesForMails = true;
             HasUbtatesForAVL = true;
