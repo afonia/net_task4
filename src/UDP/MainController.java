@@ -46,9 +46,9 @@ public class MainController implements Runnable {
         emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест2", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
         emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест3", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
         emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест4", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест5", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест6", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
-        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест7", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+//        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест5", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+//        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест6", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
+//        emailManager.emails.add(new Email("afonderkin@gmail.com", "мой тест7", "супер босс", "smtp.mail.ru", "robtest1@mail.ru", "robtest123"));
 
     }
 
@@ -59,6 +59,7 @@ public class MainController implements Runnable {
             avlTree.debug(avlTree.root);
             System.out.println("Is main:"+isMain() + " ip:"+ip);
             try {
+
             if(isMain()){
                 broadcastNum++;
                 if(broadcastNum>0) serverLisener.BroadCastMessege(Dictionary.IAmMain + Dictionary.End);
@@ -78,8 +79,12 @@ public class MainController implements Runnable {
                         HasUbtatesForMails = false;
                     }
                 }
+            }else {
+                if(avlTree.notAlone()){
+                    emailManager.sendEmails(ip);
+                }
             }
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -105,12 +110,15 @@ public class MainController implements Runnable {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         EmailManager emailManager2 = gson.fromJson(js, EmailManager.class);
         emailManager = emailManager2;
+        System.out.println(emailManager.emails.get(0).getSubject()+"<------------------messeges");
+
     }
     public void updateAVL(String js){
-       // System.out.println(js+"<-----------------------------------JS avl");
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         AvlTree avlN = gson.fromJson(js, AvlTree.class);
         avlTree = avlN;
+        //System.out.println(+"<-----------------------------------JS avl");
+
     }
 
 }
