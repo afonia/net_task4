@@ -391,7 +391,6 @@ public class AvlTree  {
             p = n.parent.key;
         }
 
-        System.out.println("Left: "+l+" Key: "+n+" Right: "+r+" Parent: "+p+" Balance: "+n.balance+" Main: "+n.main +"ip:"+n.ip);
 
         if(n.left!=null) {
             debug(n.left);
@@ -434,7 +433,7 @@ public class AvlTree  {
     }
 
     public boolean isMain(String ip) {
-        if(root.ip == ip) {
+        if(root.ip.equals(ip)) {
             return true;
         }
         return false;

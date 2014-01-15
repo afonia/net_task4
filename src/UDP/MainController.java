@@ -57,7 +57,7 @@ public class MainController implements Runnable {
         System.out.println("mainController start");
         while (true){
             avlTree.debug(avlTree.root);
-            System.out.println();
+            System.out.println("Is main:"+isMain() + " ip:"+ip);
             try {
             if(isMain()){
                 broadcastNum++;
@@ -86,6 +86,7 @@ public class MainController implements Runnable {
         }
     }
     public boolean isMain(){
+        System.out.println("AVL3.is rot-------------"+avlTree.root.ip);
         return avlTree.isMain(ip);
     }
     public void addToAvl(String ip){

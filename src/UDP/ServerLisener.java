@@ -106,7 +106,7 @@ public class ServerLisener implements Runnable{
 
         if(parent.isMain()){
             if(messege.contains(Dictionary.IAmMain)){
-                parent.broadcastNum = -20;
+                parent.broadcastNum = -2;
                 return Dictionary.HiMain;
             }
             if(messege.contains(Dictionary.HiMain)){
