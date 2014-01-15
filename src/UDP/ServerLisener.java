@@ -43,6 +43,10 @@ public class ServerLisener implements Runnable{
                 if(receivePacket.getAddress().equals(getInternetAddress())) continue;
 
                 String sentence = new String(receivePacket.getData());
+                if(sentence.contains(Dictionary.End)){
+                    sentence = sentence.substring (0,sentence.indexOf(Dictionary.End)+Dictionary.End.length());
+                    System.out.println("------------"+sentence);
+                }
                 InetAddress IPfrom = receivePacket.getAddress();
 
                 if(messeges.containsKey(IPfrom)){

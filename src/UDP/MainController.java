@@ -90,6 +90,7 @@ public class MainController implements Runnable {
         avlTree.insert(ip,null);
         HasUbtatesForMails = true;
         HasUbtatesForAVL = true;
+        System.out.println(ip+"Added to avl");
     }
     public void updateMails(String js){
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
