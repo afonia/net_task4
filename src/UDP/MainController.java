@@ -56,6 +56,7 @@ public class MainController implements Runnable {
     public void run() {
         System.out.println("mainController start");
         while (true){
+            avlTree.debug(avlTree.root);
             try {
             if(isMain()){
                 broadcastNum++;
@@ -87,10 +88,12 @@ public class MainController implements Runnable {
         return avlTree.isMain(ip);
     }
     public void addToAvl(String ip){
-        avlTree.insert(ip,null);
-        HasUbtatesForMails = true;
-        HasUbtatesForAVL = true;
-        System.out.println(ip+"Added to avl");
+        if(avlTree.findKeyByIp(ip)!=null){
+            avlTree.insert(ip,null);
+            HasUbtatesForMails = true;
+            HasUbtatesForAVL = true;
+            System.out.println(ip+"<------------------Added to avl");
+        }
     }
     public void updateMails(String js){
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
