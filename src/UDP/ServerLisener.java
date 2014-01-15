@@ -100,34 +100,30 @@ public class ServerLisener implements Runnable{
     public String FormAnswer(String messege,InetAddress ip){
         System.out.println(" from"+ip+" messege:"+messege);
 
-        if(messege.contains(Dictionary.IAmAlone)){
-            if(isMain()){
-                return Dictionary.HiFromMain;
-            }else if(hasMain()){
-                return null;
-            }else {
-                setMain();
-                return Dictionary.HiFromMain;
-            }
-        }
-        if(isMain()){
+        if(parent.isMain()){
             if(messege.contains(Dictionary.IAmMain)){
-                isMain = false;
+                parent.broadcastNum = -20;
                 return Dictionary.HiMain;
             }
             if(messege.contains(Dictionary.HiMain)){
-                AddUnit();
-                return Dictionary.Confirm;
+                parent.addToAvl(ip.getHostAddress());
+                return null;
             }
         }else {
-
             if(messege.contains(Dictionary.ByMainServer)){
-                if(messege.contains(Dictionary.Mails)){
-                    messege.replace(Dictionary.ByMainServer,"");
-                    messege.replace(Dictionary.Mails,"");
+                if(messege.contains(Dictionary.AVLUbdates)){
+                    messege = messege.replace(Dictionary.ByMainServer,"");
+                    messege = messege.replace(Dictionary.AVLUbdates,"");
+                    messege = messege.substring(messege.indexOf(Dictionary.End));
+                    parent.updateAVL(messege);
+                    return null;
                 }
-                if(messege.contains(Dictionary.HiFromMain)){
-                    IgetMain();
+                if(messege.contains(Dictionary.MessegeUbtates)){
+                    messege = messege.replace(Dictionary.ByMainServer,"");
+                    messege = messege.replace(Dictionary.MessegeUbtates,"");
+                    messege = messege.substring(messege.indexOf(Dictionary.End));
+                    parent.updateMails(messege);
+                    return null;
                 }
                 return null;
             }else{

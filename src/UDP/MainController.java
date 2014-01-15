@@ -26,6 +26,7 @@ public class MainController implements Runnable {
     String ip;
     boolean HasUbtatesForAVL = false;
     boolean HasUbtatesForMails = false;
+    int broadcastNum = 0;
 
     public MainController(){
         serverLisener = new ServerLisener(this);
@@ -57,8 +58,9 @@ public class MainController implements Runnable {
         while (true){
             try {
             if(isMain()){
-                serverLisener.BroadCastMessege(Dictionary.IAmMain + Dictionary.End);
-                if(avlTree.root.key*2-1>2) {
+                broadcastNum++;
+                if(broadcastNum>0) serverLisener.BroadCastMessege(Dictionary.IAmMain + Dictionary.End);
+                if(avlTree.notAlone()) {
                     if(HasUbtatesForAVL){
                         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                         String js = gson.toJson(avlTree);
@@ -83,6 +85,21 @@ public class MainController implements Runnable {
     }
     public boolean isMain(){
         return avlTree.isMain(ip);
+    }
+    public void addToAvl(String ip){
+        avlTree.insert(ip,null);
+        HasUbtatesForMails = true;
+        HasUbtatesForAVL = true;
+    }
+    public void updateMails(String js){
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        EmailManager emailManager2 = gson.fromJson(js, EmailManager.class);
+        emailManager = emailManager2;
+    }
+    public void updateAVL(String js){
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        AvlTree avlN = gson.fromJson(js, AvlTree.class);
+        avlTree = avlN;
     }
 
 }
