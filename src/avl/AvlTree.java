@@ -56,7 +56,8 @@ public class AvlTree  {
                  //   rootBack = (AvlNode)root.clone();
                     rootBack = root;
                     // Node is inserted now, continue checking the balance
-                    recursiveBalance(p);
+                    renumberKeys();
+
 
                     if(root.ip != rootBack.ip)  {
                         String ipBack = root.ip;
@@ -69,13 +70,14 @@ public class AvlTree  {
                     insertAVL(p.left,q);
                 }
 
-            } else if(q.key>p.key) {
+            } else if(q.key>=p.key) {
                 if(p.right==null) {
                     p.right = q;
                     q.parent = p;
 
                     // Node is inserted now, continue checking the balance
                     rootBack = root;
+
                     recursiveBalance(p);
                     if(root.ip != rootBack.ip)  {
                         String ipBack = root.ip;
@@ -99,7 +101,7 @@ public class AvlTree  {
      * @param cur : The node to check the balance for, usually you start with the parent of a leaf.
      */
     public void recursiveBalance(AvlNode cur) {
-
+        renumberKeys();
         // we do not use the balance in this class, but the store it anyway
         setBalance(cur);
         int balance = cur.balance;
@@ -527,4 +529,21 @@ public class AvlTree  {
         return false;
     }
 
+
+    public void renumberKeys() {
+        lastInsertedKey = 0;
+
+        renumberKeysRecursive (root);
+    }
+
+    public void renumberKeysRecursive(AvlNode cur) {
+        lastInsertedKey++;
+        cur.key = new Integer(lastInsertedKey);
+        if(cur.left!=null) {
+            renumberKeysRecursive(cur.left);
+        }
+        if(cur.right!=null) {
+            renumberKeysRecursive(cur.right);
+        }
+    }
 }
